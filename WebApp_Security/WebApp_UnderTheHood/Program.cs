@@ -4,10 +4,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 // Add Static Service
-builder.Services.AddAuthentication().AddCookie("MyCookieAuth", options =>
-{
-    options.Cookie.Name = "MyCookieAuth";
-});
+builder.Services.AddAuthentication("MyCookieAuth")
+    .AddCookie("MyCookieAuth", options =>
+    {
+        options.Cookie.Name = "MyCookieAuth";
+    });
 
 var app = builder.Build();
 
@@ -23,6 +24,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

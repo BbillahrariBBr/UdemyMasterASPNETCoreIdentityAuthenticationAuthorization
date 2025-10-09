@@ -4,10 +4,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 // Add Static Service
-builder.Services.AddAuthentication().AddCookie("MyCookieAuth", options =>
-{
-    options.Cookie.Name = "MyCookieAuth";
-});
+builder.Services.AddAuthentication("MyCookieAuth")
+    .AddCookie("MyCookieAuth", options =>
+    {
+        options.Cookie.Name = "MyCookieAuth";
+
+        //options.LoginPath = "/Account/Login";
+    });
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+        options.AddPolicy("MustBelongToHRDepartment", policy => policy.RequireClaim("Department", "HR"));
+        options.AddPolicy("HRManagerOnly", policy =>
+        policy.RequireClaim("Department", "HR")
+        .RequireClaim("HRManager"));
+
+    });
 
 var app = builder.Build();
 
@@ -23,6 +35,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

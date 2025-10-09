@@ -5,3 +5,41 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to Human Resource Management</h1>
 </div>
+<br />
+
+@if(Model.weatherForecastsItems is not null)
+{
+    @* <ul>
+        @foreach (var item in Model.weatherForecastsItems)
+        {
+            <li> @item.Date.ToShortDateString() - @item.TemperatureC °C - @item.TemperatureF °F - @item.Summary</li>
+
+        }
+
+
+    </ul> *@
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr align = "center">
+                <th>Date</th>
+                <th>Temperature °C</th>
+                <th>Temperature °F</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.weatherForecastsItems)
+            {
+             <tr align ="center" >
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.TemperatureC °C</td>
+                <td>@item.TemperatureF °F</td>
+                <td>@item.Summary</td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+
